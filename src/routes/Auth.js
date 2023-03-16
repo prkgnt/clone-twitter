@@ -7,6 +7,7 @@ const Auth = () => {
   const [newAccount, setNewAccount] = useState(true);
 
   const onChange = (event) => {
+    //event.target => 이벤트가 일어나는 타겟(객체) 의미
     const {
       target: { name, value },
     } = event;
@@ -16,8 +17,6 @@ const Auth = () => {
     if (name == "password") {
       setPassword(value);
     }
-    //event.target => 이벤트가 일어나는 타겟(객체) 의미
-    console.log(event.target.name);
   };
   const onSubmit = async (event) => {
     event.preventDefault();
@@ -33,8 +32,12 @@ const Auth = () => {
       }
       console.log(data);
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
+  };
+
+  const toggleAccount = () => {
+    setNewAccount((prev) => !prev);
   };
   return (
     <div>
@@ -57,9 +60,12 @@ const Auth = () => {
         />
         <input
           type="submit"
-          value={newAccount ? "Create new account" : "Log-In"}
+          value={newAccount ? "Create a new account" : "Log-In"}
         />
       </form>
+      <span onClick={toggleAccount}>
+        {newAccount ? "Sign-In" : "Create a new account"}
+      </span>
       <div>
         <button>LogIn with Google</button>
         <button>LogIn with Github</button>
