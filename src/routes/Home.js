@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { dbService } from "../firebase";
 
-const Home = () => {
+const Home = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState([]);
 
@@ -9,6 +9,7 @@ const Home = () => {
     //collection.get() 은 전체 데이터를 한번에 가져오는게 아니라 하나씩 가져옴
     //그래서 forEach 써야됨
     const dbTweets = await dbService.collection("tweet").get();
+
     dbTweets.forEach((doc) => {
       const tweetsObject = {
         ...doc.data(),
@@ -19,8 +20,19 @@ const Home = () => {
   };
 
   useEffect(() => {
-    setTweets([]);
-    getTweets();
+    //setTweets([]);
+    //getTweets();
+
+    dbService
+      .collection("tweet")
+      .orderBy("createAt", "desc")
+      .onSnapshot((snapshot) => {
+        const tweetArray = snapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+        setTweets(tweetArray);
+      });
   }, []);
 
   const onChange = (event) => {
@@ -32,8 +44,9 @@ const Home = () => {
   const onSubmit = async (event) => {
     event.preventDefault();
     await dbService.collection("tweet").add({
-      tweet,
+      text: tweet,
       createAt: Date.now(),
+      userId: userObj.uid,
     });
     setTweet("");
   };
@@ -52,7 +65,7 @@ const Home = () => {
       <div>
         {tweets.map((tweet) => (
           <div key={tweet.id}>
-            <h4>{tweet.tweet}</h4>
+            <h4>{tweet.text}</h4>
           </div>
         ))}
       </div>
