@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import Tweet from "../components/tweet";
 import { dbService } from "../firebase";
 
 const Home = ({ userObj }) => {
@@ -23,6 +24,8 @@ const Home = ({ userObj }) => {
     //setTweets([]);
     //getTweets();
 
+    //orderBy => 정렬
+    //onSnapShot => 이벤트 리스너
     dbService
       .collection("tweet")
       .orderBy("createAt", "desc")
@@ -64,9 +67,11 @@ const Home = ({ userObj }) => {
       </form>
       <div>
         {tweets.map((tweet) => (
-          <div key={tweet.id}>
-            <h4>{tweet.text}</h4>
-          </div>
+          <Tweet
+            key={tweet.id}
+            tweetObj={tweet}
+            isOwner={tweet.userId === userObj.uid}
+          />
         ))}
       </div>
     </div>
