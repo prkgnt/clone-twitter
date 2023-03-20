@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tweet from "../components/tweet";
-import { dbService } from "../firebase";
+import { dbService, storageService } from "../firebase";
+import { v4 as uuidv4 } from "uuid";
 
 const Home = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
@@ -46,12 +47,17 @@ const Home = ({ userObj }) => {
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    await dbService.collection("tweet").add({
-      text: tweet,
-      createAt: Date.now(),
-      userId: userObj.uid,
-    });
-    setTweet("");
+    // await dbService.collection("tweet").add({
+    //   text: tweet,
+    //   createAt: Date.now(),
+    //   userId: userObj.uid,
+    // });
+
+    //uuid => 랜덤 아이디 생성
+    const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+    const response = await fileRef.putString(stringFile, "data_url");
+    console.log(response);
+    //setTweet("");
   };
   const onFileChange = (event) => {
     //파일은 event.target.files 에 들어있음
