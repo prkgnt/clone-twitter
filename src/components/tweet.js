@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { dbService } from "../firebase";
+import { dbService, storageService } from "../firebase";
 
 const Tweet = ({ tweetObj, isOwner }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -8,6 +8,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
     const ok = window.confirm("Are you sure you want to delete this tweet?");
     if (ok) {
       await dbService.doc(`tweet/${tweetObj.id}`).delete();
+      await storageService.refFromURL(tweetObj.attachmentURL).delete();
     }
   };
 
