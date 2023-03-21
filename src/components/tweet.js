@@ -8,6 +8,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
     const ok = window.confirm("Are you sure you want to delete this tweet?");
     if (ok) {
       await dbService.doc(`tweet/${tweetObj.id}`).delete();
+      //firestore는 레퍼런스를 받아와야 하므로 refFromURL 사용
       await storageService.refFromURL(tweetObj.attachmentURL).delete();
     }
   };
@@ -47,7 +48,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
         <>
           <h4>{tweetObj.text}</h4>
           {tweetObj.attachmentURL && (
-            <img src={tweetObj.attachmentURL} width="50px" height="50px" />
+            <img src={tweetObj.attachmentURL} width="100px" height="100px" />
           )}
           {isOwner && (
             <>

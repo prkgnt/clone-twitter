@@ -1,8 +1,10 @@
-import React from "react";
-import { authService } from "../firebase";
+import React, { useEffect, useState } from "react";
+import { authService, dbService } from "../firebase";
+import { updateProfile } from "firebase/auth";
 import { useHistory } from "react-router-dom";
 
-const Profile = () => {
+const Profile = ({ refreshUser, userObj }) => {
+  const [name, setName] = useState("");
   const history = useHistory();
   const onLogOutClick = () => {
     authService.signOut();
@@ -10,8 +12,49 @@ const Profile = () => {
     //또는 Redirect 사용하면 됨
     history.push("/");
   };
+  const getMyTweet = async () => {
+    //db 데이터 필터링 하기
+    const myTweet = await dbService
+      .collection("tweet")
+      .where("userId", "==", userObj.uid)
+      .orderBy("createAt", "desc")
+      .get();
+    //myTweet는 여러 오브젝트들이 담긴 배열임
+    //맵으로 오브젝트를 하나씩 뽑아 데이터 추출
+    console.log(myTweet.docs.map((doc) => doc.data()));
+  };
+  useEffect(() => {
+    getMyTweet();
+    if (userObj.displayName) {
+      setName(userObj.displayName);
+    }
+  }, []);
+  const onSubmit = async (event) => {
+    event.preventDefault();
+    if (userObj.displayName != name) {
+      await userObj.updateProfile({
+        displayName: name,
+      });
+      refreshUser();
+    }
+  };
+  const onChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setName(value);
+  };
   return (
     <>
+      <form onSubmit={onSubmit}>
+        <input
+          type="text"
+          placeholder="DisplayName"
+          value={name}
+          onChange={onChange}
+        />
+        <input type="submit" value="Update Profile" />
+      </form>
       <button onClick={onLogOutClick}>Log Out</button>
     </>
   );

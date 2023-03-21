@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 const Home = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
   const [tweets, setTweets] = useState([]);
-  const [stringFile, setStringFile] = useState(null);
+  const [stringFile, setStringFile] = useState("");
   const getTweets = async () => {
     //collection.get() 은 전체 데이터를 한번에 가져오는게 아니라 하나씩 가져옴
     //그래서 forEach 써야됨
@@ -65,6 +65,7 @@ const Home = ({ userObj }) => {
     await dbService.collection("tweet").add(tweetObj);
     setStringFile("");
     setTweet("");
+    fileText.current.value = null;
   };
   const onFileChange = (event) => {
     //파일은 event.target.files 에 들어있음
