@@ -47,17 +47,24 @@ const Home = ({ userObj }) => {
   };
   const onSubmit = async (event) => {
     event.preventDefault();
-    // await dbService.collection("tweet").add({
-    //   text: tweet,
-    //   createAt: Date.now(),
-    //   userId: userObj.uid,
-    // });
+    let attachmentURL = "";
 
     //uuid => 랜덤 아이디 생성
-    const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
-    const response = await fileRef.putString(stringFile, "data_url");
-    console.log(response);
-    //setTweet("");
+    if (stringFile != "") {
+      const fileRef = storageService.ref().child(`${userObj.uid}/${uuidv4()}`);
+      const response = await fileRef.putString(stringFile, "data_url");
+      attachmentURL = await response.ref.getDownloadURL();
+    }
+
+    const tweetObj = {
+      text: tweet,
+      createAt: Date.now(),
+      userId: userObj.uid,
+      attachmentURL,
+    };
+    await dbService.collection("tweet").add(tweetObj);
+    setStringFile("");
+    setTweet("");
   };
   const onFileChange = (event) => {
     //파일은 event.target.files 에 들어있음
