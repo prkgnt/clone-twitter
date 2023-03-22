@@ -14,6 +14,7 @@ const Profile = ({ refreshUser, userObj }) => {
   };
   const getMyTweet = async () => {
     //db 데이터 필터링 하기
+    //index가 필요하다고 오류나는 경우 오류 메세지 속 링크 클릭해서 쿼리 생성하기
     const myTweet = await dbService
       .collection("tweet")
       .where("userId", "==", userObj.uid)
