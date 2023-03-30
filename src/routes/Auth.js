@@ -1,6 +1,28 @@
 import React, { useState } from "react";
 import AuthForm from "../components/authForm";
-import { authService, firebaseInstance } from "../firebase";
+import { firebaseInstance } from "../firebase";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  height: 100vh;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: gray;
+`;
+
+const SocialBox = styled.div`
+  margin-top: 20px;
+`;
+
+const SocialBtn = styled.button`
+  padding: 5px 15px;
+  border-radius: 15px;
+  margin-left: 10px;
+  background-color: black;
+  color: white;
+`;
 
 const Auth = () => {
   const onSocialClick = (event) => {
@@ -17,17 +39,17 @@ const Auth = () => {
   };
 
   return (
-    <div>
+    <Container>
       <AuthForm />
-      <div>
-        <button onClick={onSocialClick} name="google">
+      <SocialBox>
+        <SocialBtn onClick={onSocialClick} name="google">
           LogIn with Google
-        </button>
-        <button onClick={onSocialClick} name="github">
+        </SocialBtn>
+        <SocialBtn onClick={onSocialClick} name="github">
           LogIn with Github
-        </button>
-      </div>
-    </div>
+        </SocialBtn>
+      </SocialBox>
+    </Container>
   );
 };
 export default Auth;
