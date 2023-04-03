@@ -2,48 +2,6 @@ import React, { useState } from "react";
 import { authService } from "../firebase";
 import styled from "styled-components";
 
-const Container = styled.div`
-  align-items: center;
-  justify-content: center;
-`;
-const Input = styled.input`
-  padding: 5px 15px;
-  border-radius: 15px;
-  border-color: white;
-  margin-right: 5px;
-`;
-const SubmitBtn = styled.input`
-  padding: 5px 15px;
-  border-radius: 15px;
-  border-color: black;
-  margin-left: 5px;
-`;
-const ToggleBox = styled.div`
-  justify-content: center;
-  align-items: center;
-  margin-top: 10px;
-  margin-bottom: 30px;
-`;
-const ToggleBtn = styled.button`
-  position: absolute;
-  left: 45%;
-  width: 100px;
-  height: 30px;
-  padding: 5px 50px;
-  border-radius: 15px;
-  background-color: ${(props) => (props.newAccount ? "black" : "white")};
-  border-color: black;
-  border-width: 3px;
-`;
-const Circle = styled.div`
-  position: absolute;
-  left: 45%;
-  width: 30px;
-  height: 30px;
-  border-radius: 15px;
-  background-color: black;
-`;
-
 const AuthForm = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -107,12 +65,57 @@ const AuthForm = () => {
       </form>
       <ToggleBox>
         <ToggleBtn onClick={toggleAccount} newAccount={newAccount}>
-          {newAccount ? "Sign-In" : "Create a new account"}
+          {newAccount ? "Join" : "Log-In"}
         </ToggleBtn>
-        <Circle></Circle>
+        <Circle newAccount={newAccount}></Circle>
       </ToggleBox>
     </Container>
   );
 };
+
+const Container = styled.div`
+  align-items: center;
+  justify-content: center;
+`;
+const Input = styled.input`
+  padding: 5px 15px;
+  border-radius: 15px;
+  border-color: white;
+  margin-right: 5px;
+`;
+const SubmitBtn = styled.input`
+  padding: 5px 15px;
+  border-radius: 15px;
+  border-color: black;
+  margin-left: 5px;
+`;
+const ToggleBox = styled.div`
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 30px;
+`;
+const ToggleBtn = styled.button`
+  position: absolute;
+  left: 45%;
+  width: 100px;
+  height: 30px;
+  padding: 0px 15px;
+  text-align: ${(props) => (props.newAccount ? "left" : "right")};
+  border-radius: 15px;
+  background-color: ${(props) => (props.newAccount ? "gray" : "white")};
+  border-color: black;
+  border-width: 3px;
+`;
+const Circle = styled.div`
+  position: absolute;
+  left: 45%;
+  width: 30px;
+  height: 30px;
+  transform: ${(props) =>
+    props.newAccount ? "translate(70px)" : "translate(0px)"};
+  border-radius: 15px;
+  background-color: black;
+`;
 
 export default AuthForm;

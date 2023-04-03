@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { dbService, storageService } from "../firebase";
+import styled from "styled-components";
 
 const Tweet = ({ tweetObj, isOwner }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -28,7 +29,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
     setNewTweet(value);
   };
   return (
-    <div>
+    <Container>
       {isEditing ? (
         <>
           <form onSubmit={onSubmit}>
@@ -45,21 +46,48 @@ const Tweet = ({ tweetObj, isOwner }) => {
           <button onClick={onEditClick}>Cancel</button>
         </>
       ) : (
-        <>
-          <h4>{tweetObj.text}</h4>
-          {tweetObj.attachmentURL && (
-            <img src={tweetObj.attachmentURL} width="100px" height="100px" />
-          )}
+        <TweetBox>
+          <Text>{tweetObj.text}</Text>
+          {tweetObj.attachmentURL && <Image src={tweetObj.attachmentURL} />}
           {isOwner && (
-            <>
-              <button onClick={onDeleteClick}>Delete</button>
-              <button onClick={onEditClick}>Edit</button>
-            </>
+            <BtnBox>
+              <Btn onClick={onDeleteClick}>Delete</Btn>
+              <Btn onClick={onEditClick}>Edit</Btn>
+            </BtnBox>
           )}
-        </>
+        </TweetBox>
       )}
-    </div>
+    </Container>
   );
 };
+
+const BtnBox = styled.div`
+  margin-top: 10px;
+`;
+const Btn = styled.button`
+  background-color: bisque;
+  border: 0px;
+  margin: 5px 5px;
+  border-radius: 5px;
+`;
+const Text = styled.div`
+  color: white;
+`;
+const Image = styled.img`
+  margin: 10px 10px;
+  width: 150px;
+  height: 150px;
+  border-radius: 15px;
+`;
+const Container = styled.div`
+  display: flex;
+`;
+const TweetBox = styled.div`
+  width: 100vh;
+  height: fit-content;
+  border: 1px solid gray;
+  padding: 10px 10px;
+  margin: 5px 100px;
+`;
 
 export default Tweet;

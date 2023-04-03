@@ -1,8 +1,22 @@
 import React, { useEffect, useRef, useState } from "react";
 import Tweet from "../components/tweet";
 import { dbService } from "../firebase";
-
+import styled from "styled-components";
 import TweetFactory from "../components/tweetFactory";
+
+const Container = styled.div`
+  display: flex;
+  height: 100vh;
+  background-color: black;
+  align-items: center;
+  flex-direction: column;
+`;
+const TweetBox = styled.div`
+  margin-top: 50px;
+  width: 100vh;
+  justify-content: center;
+  align-items: center;
+`;
 
 const Home = ({ userObj }) => {
   const [tweets, setTweets] = useState([]);
@@ -22,9 +36,9 @@ const Home = ({ userObj }) => {
   }, []);
 
   return (
-    <div>
+    <Container>
       <TweetFactory userObj={userObj} />
-      <div>
+      <TweetBox>
         {tweets.map((tweet) => (
           <Tweet
             key={tweet.id}
@@ -32,8 +46,8 @@ const Home = ({ userObj }) => {
             isOwner={tweet.userId === userObj.uid}
           />
         ))}
-      </div>
-    </div>
+      </TweetBox>
+    </Container>
   );
 };
 
