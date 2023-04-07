@@ -8,25 +8,27 @@ import Navigation from "./Navigation";
 
 const AppRouter = ({ refreshUser, isLoggedIn, userObj }) => {
   return (
-    <Router>
-      {isLoggedIn && <Navigation userObj={userObj} />}
-      <Switch>
-        {isLoggedIn ? (
-          <>
+    <div style={{ backgroundColor: "black" }}>
+      <Router>
+        {isLoggedIn && <Navigation userObj={userObj} />}
+        <Switch>
+          {isLoggedIn ? (
+            <>
+              <Route exact path="/">
+                <Home userObj={userObj} />
+              </Route>
+              <Route exact path="/profile">
+                <Profile refreshUser={refreshUser} userObj={userObj} />
+              </Route>
+            </>
+          ) : (
             <Route exact path="/">
-              <Home userObj={userObj} />
+              <Auth></Auth>
             </Route>
-            <Route exact path="/profile">
-              <Profile refreshUser={refreshUser} userObj={userObj} />
-            </Route>
-          </>
-        ) : (
-          <Route exact path="/">
-            <Auth></Auth>
-          </Route>
-        )}
-      </Switch>
-    </Router>
+          )}
+        </Switch>
+      </Router>
+    </div>
   );
 };
 

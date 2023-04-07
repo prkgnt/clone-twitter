@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Tweet from "../components/tweet";
 import { dbService } from "../firebase";
 import styled from "styled-components";
 import TweetFactory from "../components/tweetFactory";
 
 const Container = styled.div`
+  padding-top: 30px;
   display: flex;
   height: 100vh;
   background-color: black;

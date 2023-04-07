@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { dbService, storageService } from "../firebase";
 import { v4 as uuidv4 } from "uuid";
+import styled from "styled-components";
 
 const TweetFactory = ({ userObj }) => {
   const [tweet, setTweet] = useState("");
@@ -60,20 +61,23 @@ const TweetFactory = ({ userObj }) => {
   };
   return (
     <form onSubmit={onSubmit}>
-      <input
+      <TextInput
         value={tweet}
         onChange={onChange}
         type="text"
         placeholder="What's on your mind?"
         maxLength={120}
       />
+      <FileInput for="input-file">upload</FileInput>
       <input
+        style={{ display: "none" }}
+        id="input-file"
         type="file"
         accept="image/*"
         onChange={onFileChange}
         ref={fileText}
       />
-      <input type="submit" value="tweet" />
+      <Submit type="submit" value="tweet" />
       {stringFile && (
         <div>
           <img src={stringFile} width="50px" height="50px" />
@@ -83,5 +87,24 @@ const TweetFactory = ({ userObj }) => {
     </form>
   );
 };
+
+const TextInput = styled.input`
+  padding: 0px 20px;
+  width: 400px;
+  height: 40px;
+  border-radius: 30px;
+`;
+const FileInput = styled.label`
+  background-color: white;
+  font-size: 15px;
+  padding: 3px 5px;
+  border-radius: 7px;
+  margin: 0px 5px;
+`;
+const Submit = styled.input`
+  background-color: skyblue;
+  padding: 3px 7px;
+  border-radius: 7px;
+`;
 
 export default TweetFactory;
