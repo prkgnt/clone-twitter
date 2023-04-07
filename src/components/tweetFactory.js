@@ -30,6 +30,7 @@ const TweetFactory = ({ userObj }) => {
       createAt: Date.now(),
       userId: userObj.uid,
       attachmentURL,
+      userName: userObj.displayName,
     };
     await dbService.collection("tweet").add(tweetObj);
     setStringFile("");

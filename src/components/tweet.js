@@ -55,6 +55,7 @@ const Tweet = ({ tweetObj, isOwner }) => {
               <Btn onClick={onEditClick}>Edit</Btn>
             </BtnBox>
           )}
+          {tweetObj.userName && <Owner> by {tweetObj.userName}</Owner>}
         </TweetBox>
       )}
     </Container>
@@ -72,6 +73,11 @@ const Btn = styled.button`
 `;
 const Text = styled.div`
   color: white;
+`;
+const Owner = styled.div`
+  font-size: 12px;
+  color: white;
+  text-align: right;
 `;
 const Image = styled.img`
   margin: 10px 10px;

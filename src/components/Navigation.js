@@ -7,16 +7,14 @@ const Navigation = ({ userObj }) => {
       <ul style={{ position: "absolute" }}>
         <Menu>
           <Link to="/" style={{ color: "white" }}>
-            {" "}
-            Home{" "}
+            Home
           </Link>
         </Menu>
         <Menu>
           <Link to="/profile" style={{ color: "white" }}>
-            {" "}
             {userObj.displayName
               ? `${userObj.displayName}의 Profile`
-              : "Profile"}{" "}
+              : "Profile"}
           </Link>
         </Menu>
       </ul>
